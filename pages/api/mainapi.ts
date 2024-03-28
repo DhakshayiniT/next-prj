@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Board, Prompt } from './types';
+import { Board, Prompt } from '../../types/maintype';
 
 const BASE_URL = 'https://demo6396395.mockable.io';
 

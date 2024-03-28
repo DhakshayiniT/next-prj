@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchBoards, fetchPrompts } from '../api/mainapi';
+import { fetchBoards, fetchPrompts } from './api/mainapi';
 import { Board, Prompt } from '../types/maintype';
 
 const IndexPage: React.FC = () => {
