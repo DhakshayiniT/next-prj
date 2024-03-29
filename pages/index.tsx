@@ -1,39 +1,32 @@
-import { useEffect, useState } from 'react';
-import { fetchBoards, fetchPrompts } from './api/mainapi';
-import { Board, Prompt } from '../types/maintype';
+import React, { useEffect, useState } from 'react';
+import Dashboard from '../components/Dashboard';
+import axios from 'axios';
 
-const IndexPage: React.FC = () => {
-  const [boards, setBoards] = useState<Board[]>([]);
-  const [prompts, setPrompts] = useState<Prompt[]>([]);
+const App: React.FC = () => {
+  const [response1, setResponse1] = useState<any>({});
+  const [response2, setResponse2] = useState<any>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const fetchedBoards = await fetchBoards();
-      const fetchedPrompts = await fetchPrompts();
-      setBoards(fetchedBoards);
-      setPrompts(fetchedPrompts);
+    const fetchBoardsAndPrompts = async () => {
+      try {
+        const boardsResponse = await axios.get('https://demo6396395.mockable.io/bcf-boards');
+        const promptsResponse = await axios.get('https://demo6396395.mockable.io/prompts');
+        
+        setResponse1(boardsResponse.data);
+        setResponse2(promptsResponse.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
     };
 
-    fetchData();
+    fetchBoardsAndPrompts();
   }, []);
 
   return (
     <div>
-      <h1>Boards</h1>
-      <ul>
-        {boards.map(board => (
-          <li key={board.id}>{board.name}</li>
-        ))}
-      </ul>
-
-      <h1>Prompts</h1>
-      <ul>
-        {prompts.map(prompt => (
-          <li key={prompt.id}>{prompt.name}</li>
-        ))}
-      </ul>
+      <Dashboard boards={response1.boards || []} prompts={response2 || []} />
     </div>
   );
 };
 
-export default IndexPage;
+export default App;
